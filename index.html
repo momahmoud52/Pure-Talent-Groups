@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pure Talent | Mall Groups</title>
+<link rel="icon" href="New Logo (Shape).png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ===================== COLORS & DESIGN SYSTEM ===================== */
+:root{
+  --bg-dark:#0b0f1a;
+  --bg-gradient:linear-gradient(180deg,#0b0f1a,#1b1f3a);
+  --clr-gold:#d4af37;
+  --clr-blue:#3b82f6;
+  --clr-neon:#60f0ff;
+  --text-main:#fff;
+  --text-muted:#d1d5db;
+  --radius-xl:32px;
+  --radius-lg:22px;
+  --radius-md:14px;
+  --shadow-xl:0 30px 100px rgba(0,0,0,.7);
+  --shadow-md:0 15px 40px rgba(0,0,0,.5);
+  --blur-xl:blur(20px);
+  --transition:.4s ease;
+}
+
+/* ===================== RESET ===================== */
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(--bg-dark);color:var(--text-main);}
+img{max-width:100%;display:block;border-radius:12px;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ===================== BACKGROUND ANIMATION ===================== */
+.background-glow{
+  position:fixed; width:600px;height:600px; background:radial-gradient(circle,var(--clr-neon),transparent 60%);
+  top:-150px; right:-150px; filter:blur(140px); opacity:.25; animation:glowmove 12s infinite alternate;
+  z-index:-1;
+}
+@keyframes glowmove{
+  0%{transform:translate(0,0);}
+  50%{transform:translate(-50px,30px);}
+  100%{transform:translate(0,0);}
+}
+
+/* ===================== LOADER ===================== */
+#loader{
+  position:fixed; inset:0; display:flex; justify-content:center; align-items:center; background:var(--bg-dark); z-index:9999;
+}
+.loader-card{
+  padding:40px 30px; border-radius:var(--radius-lg);
+  background:linear-gradient(180deg,#0e1225,#0b1020); box-shadow:var(--shadow-xl); text-align:center;
+}
+.loader-card strong{font-size:22px;color:var(--clr-neon);}
+.loader-bar{margin-top:26px;height:6px;background:#1f2937;border-radius:6px;overflow:hidden;}
+.loader-bar span{
+  display:block;height:100%;width:0; background:linear-gradient(90deg,var(--clr-gold),var(--clr-neon));
+  animation:loadbar 2s ease forwards;
+}
+@keyframes loadbar{to{width:100%;}}
+
+/* ===================== HERO SECTION ===================== */
+.hero{min-height:100vh; display:grid; place-items:center; padding:80px 20px 120px; background:var(--bg-gradient);}
+.hero-card{
+  width:100%; max-width:500px; border-radius:var(--radius-xl);
+  background:rgba(255,255,255,.05); backdrop-filter:var(--blur-xl);
+  box-shadow:var(--shadow-xl); padding:50px 28px 42px; text-align:center; position:relative;
+}
+.hero-logo{width:200px;height:200px;margin:-100px auto 20px;border-radius:32px;background:linear-gradient(135deg,var(--clr-gold),var(--clr-neon));padding:5px;box-shadow:0 0 20px var(--clr-neon);}
+.hero-logo-inner{width:100%;height:100%;border-radius:28px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;}
+.hero-logo-inner img{width:60%; border-radius:14px;}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:.4px;color:var(--clr-neon);}
+.hero p{margin-top:12px;font-size:15px;line-height:1.8;color:var(--text-muted);}
+.location{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  margin-top:20px; padding:10px 18px; border-radius:40px; font-size:14px; font-weight:600;
+  color:#000; background:linear-gradient(135deg,var(--clr-gold),var(--clr-neon)); box-shadow:0 10px 30px rgba(0,0,0,.5);
+  transition:.3s ease;
+}
+.location:hover{transform:translateY(-3px) scale(1.03);}
+
+/* ===================== GROUP CARDS ===================== */
+.groups{margin-top:40px; display:grid; gap:16px;}
+.group-card{
+  padding:20px 18px; border-radius:var(--radius-lg);
+  background:linear-gradient(180deg,#0e1630,#0a1022);
+  box-shadow:var(--shadow-md);
+  display:flex; align-items:center; justify-content:space-between;
+  transition:transform .4s ease, box-shadow .4s ease;
+  opacity:0; transform:translateY(20px);
+}
+.group-card.visible{opacity:1; transform:translateY(0);}
+.group-card:hover{transform:translateY(-8px) scale(1.02); box-shadow:0 30px 80px rgba(0,255,255,.45);}
+.group-info h3{font-size:16px;font-weight:700;color:var(--clr-neon);}
+.group-cta{
+  padding:10px 18px; border-radius:40px; background:linear-gradient(135deg,var(--clr-gold),var(--clr-neon));
+  color:#000; font-size:14px; font-weight:700; transition:.3s;
+}
+.group-cta:hover{transform:scale(1.08) rotateZ(1deg); box-shadow:0 0 18px var(--clr-neon);}
+
+/* ===================== FOOTER ===================== */
+.footer{margin-top:50px;padding-top:26px;display:flex;justify-content:center;gap:14px;}
+.footer a{padding:12px 22px;border-radius:30px;background:#0b1020;color:var(--clr-gold);font-weight:600;transition:.3s;}
+.footer a:hover{background:var(--clr-neon); color:#000;}
+
+/* ===================== RESPONSIVE ===================== */
+@media(min-width:768px){.hero-card{padding:60px 40px;}}
+</style>
+</head>
+<body>
+
+<div class="background-glow"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-card">
+    <strong>Welcome To Pure Talent</strong>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-logo">
+        <div class="hero-logo-inner">
+          <img src="New Logo.png" alt="Logo">
+        </div>
+      </div>
+
+      <h1>Pickers Mall</h1>
+      <p>Each picker chooses their own mall.</p>
+      <a class="location" href="https://maps.app.goo.gl/jB4uC1qWQ5zJzDoP6?g_st=ac" target="_blank" rel="noopener">
+        📍 Baynunah Tower 2, Office 112 , 4th Floor
+      </a>
+
+<div class="groups">
+  <div class="group-card">
+    <div class="group-info"><h3>Deerfields Mall</h3></div>
+    <a href="https://chat.whatsapp.com/FghKeN4mMocFGqXoGcigCQ" class="group-cta" target="_blank">Join</a>
+  </div>
+  
+  <div class="group-card">
+    <div class="group-info"><h3>Yas Mall</h3></div>
+    <a href="https://chat.whatsapp.com/LNfQKzg7Kf0D6QDYwjLCNh" class="group-cta" target="_blank">Join</a>
+  </div>
+  
+  <div class="group-card">
+    <div class="group-info"><h3>DFC Mall</h3></div>
+    <a href="https://chat.whatsapp.com/Epqjp4lCv8wATDffoKBbhS" class="group-cta" target="_blank">Join</a>
+  </div>
+  
+  <div class="group-card">
+    <div class="group-info"><h3>Baniyas Mall</h3></div>
+    <a href="https://chat.whatsapp.com/J4piWfWuXUREejYX8B1qtn" class="group-cta" target="_blank">Join</a>
+  </div>
+  
+  <div class="group-card">
+    <div class="group-info"><h3>Al Saqr Mall</h3></div>
+    <a href="https://chat.whatsapp.com/IEpT2TbYX3GBnl5IA4H3da" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Madinathi Mall</h3></div>
+    <a href="https://chat.whatsapp.com/H54QbDTzcqY6WHCpvGNy4D" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Dalma Mall</h3></div>
+    <a href="https://chat.whatsapp.com/K6Lx9Ews690E30Tl9UlSa1" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Reem Mall</h3></div>
+    <a href="https://chat.whatsapp.com/H3stXMpHicdK03nXRo15Th" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Marina Mall</h3></div>
+    <a href="https://chat.whatsapp.com/CS7YOIEbbBsHjMqdB7VrE9" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Masdar Mall</h3></div>
+    <a href="https://chat.whatsapp.com/FS5q83b2f9rBVBsDI20iLb" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Sadiyat Mall</h3></div>
+    <a href="https://chat.whatsapp.com/E0kL0uMVhkW6wYH9ktu0fC" class="group-cta" target="_blank">Join</a>
+  </div>
+
+  <div class="group-card">
+    <div class="group-info"><h3>Khalifa Store</h3></div>
+    <a href="https://chat.whatsapp.com/G0dz1wBzHhO3YyukdPrNnV" class="group-cta" target="_blank">Join</a>
+  </div>
+</div>
+
+
+      <div class="footer">
+  <a href="tel:+971503389440">Call</a>
+  <a href="mailto:Ali@Puretalent.ae">Email</a>
+</div>
+
+    </div>
+  </section>
+</div>
+
+<script>
+// Loader
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').style.display='none';
+    document.getElementById('app').style.display='block';
+    revealGroups();
+  },1800);
+});
+
+// Scroll reveal for group cards
+function revealGroups(){
+  const cards = document.querySelectorAll('.group-card');
+  cards.forEach((card,i)=>{
+    setTimeout(()=>{ card.classList.add('visible'); }, i*150);
+  });
+}
+</script>
+
+</body>
+</html>
